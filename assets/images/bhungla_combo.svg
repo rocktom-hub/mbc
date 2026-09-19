@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#FAF4EB"/>
+  <!-- Bhungla (Pipes) -->
+  <rect x="70" y="110" width="120" height="18" rx="9" fill="#FBBF24" transform="rotate(-30 70 110)"/>
+  <rect x="85" y="130" width="130" height="18" rx="9" fill="#F59E0B" transform="rotate(-20 85 130)"/>
+  <rect x="95" y="155" width="125" height="18" rx="9" fill="#FBBF24" transform="rotate(-10 95 155)"/>
+  <rect x="100" y="180" width="130" height="18" rx="9" fill="#F59E0B" transform="rotate(5 100 180)"/>
+  <!-- Bowl Bateta -->
+  <ellipse cx="270" cy="180" rx="90" ry="45" fill="#3A1812"/>
+  <ellipse cx="270" cy="172" rx="82" ry="38" fill="#EA580C"/>
+  <rect x="250" y="155" width="25" height="20" rx="4" fill="#FBBF24"/>
+  <rect x="280" y="160" width="22" height="18" rx="4" fill="#F59E0B"/>
+  <text x="200" y="270" font-family="sans-serif" font-size="16" font-weight="bold" fill="#3A1812" text-anchor="middle">Bhungla Bateta Combo</text>
+</svg>
