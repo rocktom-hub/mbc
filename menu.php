@@ -86,15 +86,10 @@ $foods = $stmt->fetchAll();
             </div>
         <?php else: ?>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <?php foreach ($foods as $food): 
-                    $imgPath = str_replace('.jpg', '.svg', $food['image']);
-                    if (!file_exists(__DIR__ . '/assets/images/' . $imgPath)) {
-                        $imgPath = 'dhoraji_bateta.svg';
-                    }
-                ?>
+                <?php foreach ($foods as $food): ?>
                     <div class="mbc-card bg-white rounded-2xl overflow-hidden hover:shadow-xl transition flex flex-col justify-between border border-[#E8DCCB]">
                         <div class="relative">
-                            <img src="<?php echo baseUrl('assets/images/' . $imgPath); ?>" alt="<?php echo htmlspecialchars($food['name']); ?>" class="w-full h-48 object-cover">
+                            <img src="<?php echo getImageUrl($food['image']); ?>" alt="<?php echo htmlspecialchars($food['name']); ?>" class="w-full h-48 object-cover">
                             <?php if ($food['is_featured']): ?>
                                 <span class="absolute top-3 left-3 bg-[#D97706] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow uppercase tracking-wider">
                                     Bestseller

@@ -52,15 +52,11 @@ $grandTotal = $subtotal > 0 ? ($subtotal + $deliveryFee + $taxAmount) : 0;
                             <tbody>
                                 <?php foreach ($cart as $id => $item): 
                                     $itemTotal = $item['price'] * $item['quantity'];
-                                    $imgPath = str_replace('.jpg', '.svg', $item['image']);
-                                    if (!file_exists(__DIR__ . '/assets/images/' . $imgPath)) {
-                                        $imgPath = 'dhoraji_bateta.svg';
-                                    }
                                 ?>
                                     <tr>
                                         <td>
                                             <div class="flex items-center gap-3">
-                                                <img src="<?php echo baseUrl('assets/images/' . $imgPath); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="w-12 h-12 rounded-lg object-cover border border-[#E8DCCB]">
+                                                <img src="<?php echo getImageUrl($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="w-12 h-12 rounded-lg object-cover border border-[#E8DCCB]">
                                                 <span class="font-bold text-xs text-[#3A1812]"><?php echo htmlspecialchars($item['name']); ?></span>
                                             </div>
                                         </td>

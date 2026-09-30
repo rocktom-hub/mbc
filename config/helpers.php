@@ -42,6 +42,132 @@ function formatPrice($amount) {
     return '₹ ' . number_format((float)$amount, 2);
 }
 
+// Smart Image URL Resolver
+function getImageUrl($imageName, $default = 'dhoraji_bateta.svg') {
+    if (empty($imageName)) {
+        return baseUrl('assets/images/' . $default);
+    }
+
+    $imageName = trim($imageName);
+
+    if (filter_var($imageName, FILTER_VALIDATE_URL)) {
+        return $imageName;
+    }
+
+    $baseDir = __DIR__ . '/../assets/images/';
+
+    // 1. Direct file check
+    if (file_exists($baseDir . $imageName) && !is_dir($baseDir . $imageName)) {
+        return baseUrl('assets/images/' . $imageName);
+    }
+
+    // 2. Check if inside uploads/ subdirectory
+    if (file_exists($baseDir . 'uploads/' . $imageName) && !is_dir($baseDir . 'uploads/' . $imageName)) {
+        return baseUrl('assets/images/uploads/' . $imageName);
+    }
+
+    // 3. Check with alternate extensions (e.g. stored as .jpg but actual file is .png or vice versa)
+    $pathInfo = pathinfo($imageName);
+    $filenameWithoutExt = $pathInfo['filename'] ?? '';
+    if (!empty($filenameWithoutExt)) {
+        $extensions = ['png', 'jpg', 'jpeg', 'webp', 'svg'];
+        foreach ($extensions as $ext) {
+            $testFile = $filenameWithoutExt . '.' . $ext;
+            if (file_exists($baseDir . $testFile)) {
+                return baseUrl('assets/images/' . $testFile);
+            }
+            if (file_exists($baseDir . 'uploads/' . $testFile)) {
+                return baseUrl('assets/images/uploads/' . $testFile);
+            }
+        }
+    }
+
+    // 4. Check seed SVG fallback (e.g. chana_bateta.jpg -> chana_bateta.svg)
+    $svgName = preg_replace('/\.(jpg|jpeg|png)$/i', '.svg', $imageName);
+    if ($svgName !== $imageName && file_exists($baseDir . $svgName)) {
+        return baseUrl('assets/images/' . $svgName);
+    }
+
+    // 5. Default fallback
+    if (file_exists($baseDir . $default)) {
+        return baseUrl('assets/images/' . $default);
+    }
+    return baseUrl('assets/images/dhoraji_bateta.svg');
+}
+
+// Upload Image File Helper
+function uploadImageFile($file, $targetDir = null) {
+    if (!$targetDir) {
+        $targetDir = __DIR__ . '/../assets/images/';
+    }
+
+    if (!isset($file['error']) || is_array($file['error'])) {
+        return ['success' => false, 'error' => 'Invalid file parameter.'];
+    }
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        switch ($file['error']) {
+            case UPLOAD_ERR_NO_FILE:
+                return ['success' => false, 'error' => 'No file was uploaded.'];
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                return ['success' => false, 'error' => 'File size exceeds maximum allowed limit.'];
+            default:
+                return ['success' => false, 'error' => 'File upload error code: ' . $file['error']];
+        }
+    }
+
+    // Max 10MB
+    if ($file['size'] > 10 * 1024 * 1024) {
+        return ['success' => false, 'error' => 'File size exceeds 10MB.'];
+    }
+
+    $allowedMimes = [
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/webp' => 'webp',
+        'image/gif'  => 'gif',
+        'image/svg+xml' => 'svg'
+    ];
+
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->file($file['tmp_name']);
+    
+    // Also check extension
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    if (!isset($allowedMimes[$mimeType]) && !in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'])) {
+        return ['success' => false, 'error' => 'Invalid file format. Allowed: JPG, PNG, WEBP, GIF, SVG.'];
+    }
+
+    $safeExt = $allowedMimes[$mimeType] ?? ($ext === 'jpeg' ? 'jpg' : $ext);
+    $origName = pathinfo($file['name'], PATHINFO_FILENAME);
+    $slugName = preg_replace('/[^a-zA-Z0-9_-]/', '_', strtolower($origName));
+    if (empty($slugName)) {
+        $slugName = 'food';
+    }
+    
+    // Generate safe filename with timestamp
+    $fileName = $slugName . '_' . time() . '.' . $safeExt;
+    $targetPath = rtrim($targetDir, '/\\') . DIRECTORY_SEPARATOR . $fileName;
+
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);
+    }
+
+    $moved = false;
+    if (is_uploaded_file($file['tmp_name'])) {
+        $moved = move_uploaded_file($file['tmp_name'], $targetPath);
+    } else {
+        $moved = @copy($file['tmp_name'], $targetPath) || @rename($file['tmp_name'], $targetPath);
+    }
+
+    if (!$moved) {
+        return ['success' => false, 'error' => 'Failed to save uploaded file. Check folder permissions.'];
+    }
+
+    return ['success' => true, 'filename' => $fileName];
+}
+
 // Fetch Restaurant Setting
 function getSetting($key, $default = '') {
     try {

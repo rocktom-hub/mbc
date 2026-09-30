@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#FAF4EB"/>
+  <ellipse cx="200" cy="245" rx="70" ry="18" fill="#2D0B07" opacity="0.15"/>
+  <!-- Traditional Clay Kulhad / Glass -->
+  <path d="M 155 100 L 165 235 Q 200 245 235 235 L 245 100 Z" fill="#D97706" stroke="#B45309" stroke-width="3"/>
+  <path d="M 160 105 L 168 225 Q 200 235 232 225 L 240 105 Z" fill="#FDFBF7"/>
+  <!-- Buttermilk rim -->
+  <ellipse cx="200" cy="100" rx="45" ry="14" fill="#F3EFEA" stroke="#E2DCD5" stroke-width="2"/>
+  <!-- Cumin & Mint tadka garnish on top -->
+  <circle cx="185" cy="98" r="2.5" fill="#78350F"/>
+  <circle cx="205" cy="102" r="2.5" fill="#78350F"/>
+  <circle cx="215" cy="96" r="2" fill="#78350F"/>
+  <circle cx="195" cy="104" r="2" fill="#78350F"/>
+  <path d="M 195 90 Q 200 82 205 92 Q 200 95 195 90" fill="#15803D"/>
+  <path d="M 205 92 Q 212 85 215 95 Q 208 97 205 92" fill="#16A34A"/>
+  <text x="200" y="275" font-family="sans-serif" font-size="16" font-weight="bold" fill="#3A1812" text-anchor="middle">Masala Buttermilk (Chhas)</text>
+</svg>

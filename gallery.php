@@ -19,15 +19,10 @@ $galleryItems = $db->query("SELECT * FROM gallery ORDER BY id DESC")->fetchAll()
 <section class="py-12 bg-[#FFFBF4]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <?php foreach ($galleryItems as $item): 
-                $imgPath = str_replace('.jpg', '.svg', $item['image']);
-                if (!file_exists(__DIR__ . '/assets/images/' . $imgPath)) {
-                    $imgPath = 'dhoraji_bateta.svg';
-                }
-            ?>
+            <?php foreach ($galleryItems as $item): ?>
                 <div class="mbc-card bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition border border-[#E8DCCB] group">
                     <div class="relative overflow-hidden h-56">
-                        <img src="<?php echo baseUrl('assets/images/' . $imgPath); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="<?php echo getImageUrl($item['image']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white">
                             <span class="text-xs font-bold bg-[#D97706] px-3 py-1.5 rounded-full shadow"><i class="fa-solid fa-eye mr-1"></i> Preview</span>
                         </div>

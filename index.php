@@ -67,13 +67,13 @@ $reviews = $reviewStmt->fetchAll();
             <div class="relative flex justify-center">
                 <div class="w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-[#E8DCCB]/40 absolute -z-10 animate-pulse"></div>
                 <div class="mbc-card p-4 bg-white rounded-3xl shadow-2xl border-4 border-[#D97706] max-w-md w-full transform rotate-1 hover:rotate-0 transition duration-300">
-                    <img src="<?php echo baseUrl('assets/images/dhoraji_bateta.svg'); ?>" alt="Dhoraji Bateta Special" class="w-full h-72 object-cover rounded-2xl">
+                    <img src="<?php echo baseUrl('assets/images/dhsb.png'); ?>" alt="Dhoraji Bateta Special" class="w-full h-72 object-cover rounded-5xl">
                     <div class="mt-4 flex items-center justify-between px-2">
                         <div>
                             <span class="text-xs font-bold text-[#D97706] uppercase tracking-wider">#1 Bestseller</span>
                             <h3 class="font-serif-heading font-bold text-lg text-[#3A1812]">Dhoraji Bateta Special</h3>
                         </div>
-                        <span class="bg-[#3A1812] text-[#FBBF24] font-extrabold px-3 py-1.5 rounded-lg text-sm">₹ 80.00</span>
+                        <span class="bg-[#3A1812] text-[#FBBF24] font-extrabold px-3 py-1.5 rounded-lg text-sm">₹ 50.00</span>
                     </div>
                 </div>
             </div>
@@ -164,15 +164,10 @@ $reviews = $reviewStmt->fetchAll();
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php foreach ($featuredFoods as $food): 
-                $imgPath = str_replace('.jpg', '.svg', $food['image']);
-                if (!file_exists(__DIR__ . '/assets/images/' . $imgPath)) {
-                    $imgPath = 'dhoraji_bateta.svg';
-                }
-            ?>
+            <?php foreach ($featuredFoods as $food): ?>
                 <div class="mbc-card bg-white rounded-2xl overflow-hidden hover:shadow-xl transition flex flex-col justify-between border border-[#E8DCCB]">
                     <div class="relative">
-                        <img src="<?php echo baseUrl('assets/images/' . $imgPath); ?>" alt="<?php echo htmlspecialchars($food['name']); ?>" class="w-full h-48 object-cover">
+                        <img src="<?php echo getImageUrl($food['image']); ?>" alt="<?php echo htmlspecialchars($food['name']); ?>" class="w-full h-48 object-cover">
                         <span class="absolute top-3 left-3 bg-[#3A1812] text-[#FBBF24] text-[10px] font-bold px-2.5 py-1 rounded-full shadow">
                             <?php echo htmlspecialchars($food['category_name'] ?? 'Special'); ?>
                         </span>
